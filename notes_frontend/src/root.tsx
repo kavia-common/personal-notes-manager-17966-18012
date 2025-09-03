@@ -21,6 +21,9 @@ export default component$(() => {
     <QwikCityProvider>
       <head>
         <meta charset="utf-8" />
+        <meta name="theme-color" content="#1976d2" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         {!isDev && (
           <link
             rel="manifest"

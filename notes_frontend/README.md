@@ -1,65 +1,44 @@
-# Qwik City App ⚡️
+# Notes Frontend (Qwik)
 
-- [Qwik Docs](https://qwik.dev/)
-- [Discord](https://qwik.dev/chat)
-- [Qwik GitHub](https://github.com/QwikDev/qwik)
-- [@QwikDev](https://twitter.com/QwikDev)
-- [Vite](https://vitejs.dev/)
+Modern, minimalistic Qwik app for managing personal notes with:
+- User authentication (login/register)
+- Create, edit, delete notes
+- View notes in a responsive grid
+- Search and tag filtering
+- Modal dialogs for editing
+- Light theme with primary #1976d2, secondary #424242, accent #ffb300
 
----
+## Environment
+Copy `.env.example` to `.env` and set:
+- VITE_API_BASE_URL: Base URL of the backend API (e.g., https://api.example.com)
 
-## Project Structure
+The app uses localStorage for an `auth_token` issued by the backend on login/register.
 
-This project is using Qwik with [QwikCity](https://qwik.dev/qwikcity/overview/). QwikCity is just an extra set of tools on top of Qwik to make it easier to build a full site, including directory-based routing, layouts, and more.
+## Scripts
+- npm start — dev server (SSR mode)
+- npm run build — prod build
+- npm run preview — preview production build
 
-Inside your project, you'll see the following directory structure:
+## Structure
+- src/lib/api.ts — HTTP client and types
+- src/lib/auth.ts — auth context and actions
+- src/components/ui — Header and Sidebar
+- src/components/notes — NoteCard and NoteModal
+- src/routes — pages and layout
 
-```
-├── public/
-│   └── ...
-└── src/
-    ├── components/
-    │   └── ...
-    └── routes/
-        └── ...
-```
+## API Contracts (expected)
+- POST /auth/login {email,password} -> {token,user}
+- POST /auth/register {email,password} -> {token,user}
+- GET /notes[?q=&tag=] -> Note[]
+- POST /notes -> Note
+- PUT /notes/:id -> Note
+- DELETE /notes/:id -> 204
 
-- `src/routes`: Provides the directory-based routing, which can include a hierarchy of `layout.tsx` layout files, and an `index.tsx` file as the page. Additionally, `index.ts` files are endpoints. Please see the [routing docs](https://qwik.dev/qwikcity/routing/overview/) for more info.
+Adjust paths in src/lib/api.ts if backend differs.
 
-- `src/components`: Recommended directory for components.
+## Styling
+Global CSS defines theme variables, card, grid, buttons, etc. The layout uses:
+- Header (navigation + auth)
+- Sidebar (tags)
+- Main content: search, action bar, notes grid
 
-- `public`: Any static assets, like images, can be placed in the public directory. Please see the [Vite public directory](https://vitejs.dev/guide/assets.html#the-public-directory) for more info.
-
-## Add Integrations and deployment
-
-Use the `npm run qwik add` command to add additional integrations. Some examples of integrations includes: Cloudflare, Netlify or Express Server, and the [Static Site Generator (SSG)](https://qwik.dev/qwikcity/guides/static-site-generation/).
-
-```shell
-npm run qwik add # or `yarn qwik add`
-```
-
-## Development
-
-Development mode uses [Vite's development server](https://vitejs.dev/). The `dev` command will server-side render (SSR) the output during development.
-
-```shell
-npm start # or `yarn start`
-```
-
-> Note: during dev mode, Vite may request a significant number of `.js` files. This does not represent a Qwik production build.
-
-## Preview
-
-The preview command will create a production build of the client modules, a production build of `src/entry.preview.tsx`, and run a local server. The preview server is only for convenience to preview a production build locally and should not be used as a production server.
-
-```shell
-npm run preview # or `yarn preview`
-```
-
-## Production
-
-The production build will generate client and server modules by running both client and server build commands. The build command will use Typescript to run a type check on the source code.
-
-```shell
-npm run build # or `yarn build`
-```
